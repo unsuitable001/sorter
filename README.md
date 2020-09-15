@@ -6,6 +6,14 @@ Yet Another Flutter application to arrange numbers in sorted order
 
 This project is my first flutter project (and, my first mobile app too).
 
+### Screenshots
+
+![Screenshot1](readme/Screenshot1.png)
+![Screenshot2](readme/Screenshot2.png)
+![Screenshot3](readme/Screenshot3.png)
+![Screenshot4](readme/Screenshot4.png)
+![Screenshot5](readme/Screenshot5.png)
+
 ### Run
 
 `flutter run`
@@ -17,6 +25,11 @@ This project is my first flutter project (and, my first mobile app too).
 ### Android Slim-APK Build
 
 `flutter build apk --split-per-abi`
+
+### Dependencies
+
+`provider`
+
 
 A few resources to get you started if this is your first Flutter project:
 

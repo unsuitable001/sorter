@@ -1,5 +1,7 @@
+import 'package:Shorter/model/sorted_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,7 +14,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Sorter'),
+      home: ChangeNotifierProvider(
+        create: (context) => SortedList(),
+        child: MyHomePage(title: 'Sorter')
+      ),
     );
   }
 }
@@ -21,34 +26,32 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
+//  final SortedList sortedList;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<int> _list = new List();
-  String _sortedList = '';
-
+  SortedList sortedList;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _addNewRoll(String item, BuildContext scaffoldContext) {
-    setState(() {
-      try {
-        item.split(',').forEach((element) {
-          _list.add(int.parse(element.trim()));
-        });
-        _list.sort();
-        _sortedList =_list.join(', ');
-      } catch (e) {
-        Scaffold.of(scaffoldContext).showSnackBar(SnackBar(content: const Text('This is not a number!'),));
-      }
-    });
+    try {
+      Provider.of<SortedList>(context, listen: false).addItem(item);
+    } catch (e) {
+      Scaffold.of(scaffoldContext).showSnackBar(SnackBar(content: const Text('This is not a number!'),));
+    }
   }
 
   void _copySortedList(BuildContext scaffoldcontext) {
-    Clipboard.setData(ClipboardData(text: _sortedList));
+    Clipboard.setData(ClipboardData(text: Provider.of<SortedList>(context, listen: false).list ));
     Scaffold.of(scaffoldcontext).showSnackBar(SnackBar(content: const Text('Copied To Clipboard!'),));
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +68,19 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[Text('Total Count : ${_list.length}', style: TextStyle(fontWeight: FontWeight.bold),),
-                    SelectableText(
-                      '$_sortedList', 
+                  children: <Widget>[
+                    Consumer<SortedList>(
+                      builder: (context, data, child) => Text(
+                        'Total Count : ${data.length}', 
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Consumer<SortedList>(
+                      builder: (context, data, child) => SelectableText(
+                      '${data.list}', 
                         onTap: () => {_copySortedList(context)}
-                        ),
+                      ),
+                    ),
                   ],
                 ),
                 TextField(
@@ -86,7 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: Builder(
         builder: (BuildContext context) {
           return FloatingActionButton(
-            onPressed: () => _addNewRoll(textController.text, context),
+            onPressed: () => {
+              _addNewRoll(textController.text, context),
+              textController.text = ''
+            },
             tooltip: 'Add Roll Nos.',
             child: Icon(Icons.add),
           );
