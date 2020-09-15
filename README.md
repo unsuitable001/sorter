@@ -7,12 +7,7 @@ Yet Another Flutter application to arrange numbers in sorted order
 This project is my first flutter project (and, my first mobile app too).
 
 ### Screenshots
-
-![Screenshot1](readme/Screenshot1.png)
-![Screenshot2](readme/Screenshot2.png)
-![Screenshot3](readme/Screenshot3.png)
-![Screenshot4](readme/Screenshot4.png)
-![Screenshot5](readme/Screenshot5.png)
+<img src="readme/Screenshot1.png" width="300"/> <img src="readme/Screenshot2.png" width="300"/> <img src="readme/Screenshot3.png" width="300"/>  <img src="readme/Screenshot4.png" width="300"/> <img src="readme/Screenshot5.png" width="300"/> 
 
 ### Run
 
